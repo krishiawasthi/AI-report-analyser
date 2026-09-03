@@ -18,10 +18,6 @@ short_description: Upload any PDF and ask questions about it
 
 An AI-powered document intelligence tool that lets you upload any business PDF and ask questions about it in plain English — built using LangChain, Google Gemini, FAISS, and Streamlit.
 
-## Live Demo
-
-**[Try it on Hugging Face Spaces](https://huggingface.co/spaces/krishiawasthi/ai-report-analyser)**
-
 ---
 
 ## What it does
