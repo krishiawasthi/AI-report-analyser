@@ -14,15 +14,17 @@ def build_qa_chain(chunks):
         raise ValueError("GOOGLE_API_KEY is missing. Please add it to your .env file.")
 
     # Gemini embeddings — same API key as the chat model, no local model download
-    embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/text-embedding-004",
-        google_api_key=api_key,
-    )
-
-    vectorstore = FAISS.from_documents(
-        documents=chunks,
-        embedding=embeddings
-    )
+    try:
+        embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/text-embedding-004",
+            google_api_key=api_key,
+        )
+        vectorstore = FAISS.from_documents(
+            documents=chunks,
+            embedding=embeddings
+        )
+    except Exception as e:
+        raise ValueError(f"Embedding error: {str(e)}")
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
