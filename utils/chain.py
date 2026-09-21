@@ -15,7 +15,7 @@ def build_qa_chain(chunks):
 
     # Gemini embeddings — same API key as the chat model, no local model download
     embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/gemini-embedding-001",
+        model="models/text-embedding-004",
         google_api_key=api_key,
     )
 
