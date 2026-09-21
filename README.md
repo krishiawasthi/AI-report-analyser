@@ -36,7 +36,7 @@ PDF Upload
     ↓
 Text extraction and chunking (LangChain)
     ↓
-Embeddings generated (HuggingFace all-MiniLM-L6-v2)
+Embeddings generated (Google Gemini models/gemini-embedding-001)
     ↓
 Stored in FAISS vector database
     ↓
@@ -52,9 +52,8 @@ Gemini generates answer from context
 ## Tech stack
 
 - **LangChain** — document loading, chunking, and retrieval pipeline
-- **Google Gemini API** — LLM for answer generation
+- **Google Gemini API** — embeddings (`models/gemini-embedding-001`) and LLM for answers
 - **FAISS** — vector database for semantic search
-- **HuggingFace Embeddings** — local embedding model (all-MiniLM-L6-v2)
 - **Streamlit** — web interface
 - **Python** — core language
 
