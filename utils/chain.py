@@ -1,8 +1,7 @@
 import os
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
 
 load_dotenv()
 
@@ -14,9 +13,10 @@ def build_qa_chain(chunks):
     if not api_key:
         raise ValueError("GOOGLE_API_KEY is missing. Please add it to your .env file.")
 
-    # Local embeddings — no API call, much faster
-    embeddings = HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2"
+    # Gemini embeddings — same API key as the chat model, no local model download
+    embeddings = GoogleGenerativeAIEmbeddings(
+        model="models/gemini-embedding-001",
+        google_api_key=api_key,
     )
 
     vectorstore = FAISS.from_documents(
