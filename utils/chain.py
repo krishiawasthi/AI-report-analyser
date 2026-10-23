@@ -1,9 +1,29 @@
 import os
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from google import genai
+from google.genai import types
 from langchain_community.vectorstores import FAISS
+from langchain_core.embeddings import Embeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
+
+class GeminiEmbeddings(Embeddings):
+    def __init__(self, api_key):
+        self.client = genai.Client(api_key=api_key)
+
+    def embed_documents(self, texts):
+        return [self._embed(t) for t in texts]
+
+    def embed_query(self, text):
+        return self._embed(text)
+
+    def _embed(self, text):
+        result = self.client.models.embed_content(
+            model="gemini-embedding-exp-03-07",
+            contents=text,
+        )
+        return result.embeddings[0].values
 
 def build_qa_chain(chunks):
     if not chunks:
@@ -11,18 +31,11 @@ def build_qa_chain(chunks):
 
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY is missing. Please add it to your .env file.")
+        raise ValueError("GOOGLE_API_KEY is missing.")
 
-    # Gemini embeddings — same API key as the chat model, no local model download
     try:
-        embeddings = GoogleGenerativeAIEmbeddings(
-            model="models/text-embedding-004",
-            google_api_key=api_key,
-        )
-        vectorstore = FAISS.from_documents(
-            documents=chunks,
-            embedding=embeddings
-        )
+        embeddings = GeminiEmbeddings(api_key=api_key)
+        vectorstore = FAISS.from_documents(documents=chunks, embedding=embeddings)
     except Exception as e:
         raise ValueError(f"Embedding error: {str(e)}")
 
