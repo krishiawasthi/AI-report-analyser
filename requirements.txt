@@ -1,9 +1,8 @@
-streamlit
-langchain
+streamlit==1.45.0
+protobuf==4.25.3
+langchain-google-genai
 langchain-community
-langchain-google-genai==1.0.10
 langchain-text-splitters
 faiss-cpu
 pypdf
 python-dotenv
-google-generativeai

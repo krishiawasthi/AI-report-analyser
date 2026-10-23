@@ -29,7 +29,7 @@ def build_qa_chain(chunks):
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     llm = ChatGoogleGenerativeAI(
-        model="gemini-3.6-flash",
+        model="gemini-2.0-flash",
         google_api_key=api_key,
         temperature=0
     )
